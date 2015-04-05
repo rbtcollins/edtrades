@@ -198,6 +198,8 @@ lookupData = runStdoutLoggingT $ withSqlitePool connStr 10 $ \pool ->
         --                                 ] [LimitTo 1] 
         -- liftIO $ print res
 
+-- TODOs
+-- we could calculate the best route between each station once, then for the path calculation avoid all the product work etc.
 main :: IO ()
 main = do 
     (res_system, res_commodities, resSc, resStations) <- lookupData
@@ -221,7 +223,7 @@ main = do
     liftIO $ print [systemName s | (_, s) <- near]
         -- liftIO $ print $ take 3 route1
         -- liftIO $ print $ List.length route1
-    liftIO $ print $ showRoute $ head $ reverseSort $ map (trades stationGoods) route1
-    liftIO $ print $ showRoute $ head $ reverseSort $ map (trades stationGoods) route2
-    liftIO $ print $ showRoute $ head $ reverseSort $ map (trades stationGoods) route3
-        -- liftIO $ print $ showRoute $ head $ reverseSort $ map (trades stationGoods) route4   
+    liftIO $ print $ showRoute $ List.maximum $ map (trades stationGoods) route1
+    liftIO $ print $ showRoute $ List.maximum $ map (trades stationGoods) route2
+    liftIO $ print $ showRoute $ List.maximum $ map (trades stationGoods) route3
+        -- liftIO $ print $ showRoute $ head $ reverseSort $ map (trades stationGoods) route4
